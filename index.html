@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AISinja</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- SIDE MENU OVERLAY -->
+<div id="side-overlay" class="side-overlay hidden" onclick="closeSideMenu()"></div>
+
+<!-- SIDE MENU -->
+<aside id="side-menu" class="side-menu">
+  <button class="side-close" onclick="closeSideMenu()">✕</button>
+
+  <!-- Nav Links -->
+  <nav class="side-nav">
+    <button class="side-nav-btn" onclick="closeSideMenu();showHome()"><span class="nav-icon">🏠</span> Home</button>
+    <button class="side-nav-btn" onclick="closeSideMenu();showPage('download')"><span class="nav-icon">⬇️</span> Download</button>
+    <button class="side-nav-btn" onclick="closeSideMenu();showPage('tools')"><span class="nav-icon">🔧</span> Tools</button>
+    <button class="side-nav-btn" onclick="closeSideMenu();showPage('ai')"><span class="nav-icon">🤖</span> AI Chat</button>
+    <button class="side-nav-btn" onclick="closeSideMenu();openModal('gorengan')"><span class="nav-icon">🍟</span> Gorengan</button>
+    <button class="side-nav-btn" onclick="closeSideMenu();openModal('vip')"><span class="nav-icon">👑</span> VIP</button>
+  </nav>
+
+  <!-- Profile Section -->
+  <div class="side-profile">
+    <div class="side-avatar">
+      <img src="https://unavatar.io/instagram/exoild._" alt="ExoilD" onerror="this.style.display='none';this.parentNode.innerHTML='<span>E</span>'" />
+    </div>
+    <div class="side-name">Harysma Dwi Subagja</div>
+    <div class="side-codename">ExoildExclusive</div>
+    <div class="side-id">@ExoilD</div>
+  </div>
+
+  <div class="side-tags">
+    <span class="tag">18 tahun</span>
+    <span class="tag">🇮🇩 Indonesia</span>
+    <span class="tag">Nolep</span>
+    <span class="tag">Kindheart</span>
+    <span class="tag">Wallet empty 🥲</span>
+    <span class="tag">Gamer</span>
+    <span class="tag">Vibes code</span>
+  </div>
+
+  <div class="side-section-title">Sosial Media</div>
+  <div class="side-socials">
+    <a href="https://www.instagram.com/exoild._?igsh=c3V0MWo5NDZidHJw" target="_blank" class="social-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      exoild._
+    </a>
+    <a href="https://www.instagram.com/exoildexclusive?igsh=cmQ0dnVtb3d5MzFi" target="_blank" class="social-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      ExoildExclusive
+    </a>
+  </div>
+
+  <div class="side-section-title">Credit API</div>
+  <div class="side-credits">
+    <a href="https://www.sankavollerei.com/docs/" target="_blank" class="credit-item">
+      <div class="credit-dot"></div>
+      <div>
+        <div class="credit-name">Sankanime</div>
+        <div class="credit-url">sankavollerei.com</div>
+      </div>
+    </a>
+    <a href="https://app.siputzx.my.id" target="_blank" class="credit-item">
+      <div class="credit-dot" style="background:#00d4aa"></div>
+      <div>
+        <div class="credit-name">Siputzx</div>
+        <div class="credit-url">app.siputzx.my.id</div>
+      </div>
+    </a>
+    <a href="https://api.danzy.web.id" target="_blank" class="credit-item">
+      <div class="credit-dot" style="background:#f5a623"></div>
+      <div>
+        <div class="credit-name">KuroNeko</div>
+        <div class="credit-url">api.danzy.web.id</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="side-footer">Built with ❤️ by ExoilD</div>
+</aside>
+
+<!-- LOADING OVERLAY -->
+<div id="loading-overlay" class="hidden">
+  <div class="loading-inner">
+    <div class="loading-spinner"></div>
+    <div class="loading-timer" id="loading-timer">5</div>
+    <div class="loading-text" id="loading-text">Sabar proses dulu...</div>
+    <div class="loading-img-wrap">
+      <img id="loading-img" src="" alt="Cantik" />
+    </div>
+    <div class="loading-quote">Sambil nunggu liat cewek cantik ye kan 😏</div>
+  </div>
+</div>
+
+<!-- PASSWORD MODAL -->
+<div id="modal-overlay" class="hidden">
+  <div class="modal-box">
+    <div class="modal-title" id="modal-title">🔒 Masukkan Sandi</div>
+    <input type="password" id="modal-input" class="modal-input" placeholder="Sandi..." />
+    <div class="modal-msg" id="modal-msg"></div>
+    <div class="modal-btns">
+      <button onclick="checkPassword()" class="btn-primary">Masuk</button>
+      <button onclick="closeModal()" class="btn-ghost">Batal</button>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <button class="hamburger" onclick="openSideMenu()">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="header-brand">
+    <span class="b-a">A</span><span class="b-small">ℒℒ</span>
+    <span class="b-i">I</span><span class="b-small">ⓝ</span>
+    <span class="b-sin">Sin</span><span class="b-small">dang</span>
+    <span class="b-ja">Ja</span><span class="b-small">wa</span>
+  </div>
+  <div class="header-sub">✦ All In One Tool ✦</div>
+</header>
+
+<!-- MAIN DASHBOARD -->
+<main id="main-home">
+
+  <section class="top-section">
+    <div class="quote-card" id="quote-card">
+      <div class="quote-img-wrap">
+        <img id="quote-img" src="" alt="Anime" />
+      </div>
+      <div class="quote-content">
+        <div class="quote-label">✦ Anime Quote</div>
+        <p class="quote-text" id="quote-text">Memuat quote...</p>
+        <p class="quote-char" id="quote-char"></p>
+        <div class="quote-timer-bar"><div class="quote-timer-fill" id="quote-fill"></div></div>
+      </div>
+    </div>
+
+    <div class="jadwal-card" id="jadwal-card">
+      <div class="jadwal-header">
+        <span class="jadwal-icon">🕌</span>
+        <div>
+          <div class="jadwal-title">Jadwal Sholat</div>
+          <div class="jadwal-kota" id="jadwal-kota">Kuningan</div>
+        </div>
+        <div class="jadwal-date" id="jadwal-date"></div>
+      </div>
+      <div class="jadwal-grid" id="jadwal-grid">
+        <div class="jadwal-loading">Memuat jadwal...</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-section">
+    <h2 class="section-title">⚡ Menu Utama</h2>
+    <div class="menu-grid">
+      <div class="menu-card" onclick="showPage('download')">
+        <div class="menu-icon">⬇️</div>
+        <div class="menu-name">Download</div>
+        <div class="menu-desc">YT, Spotify, TikTok, dll</div>
+      </div>
+      <div class="menu-card" onclick="showPage('tools')">
+        <div class="menu-icon">🔧</div>
+        <div class="menu-name">Tools</div>
+        <div class="menu-desc">Edit, Convert, Translate</div>
+      </div>
+      <div class="menu-card" onclick="window.open('https://kawihfy.vercel.app','_blank')">
+        <div class="menu-icon">🎵</div>
+        <div class="menu-name">Kawihfy</div>
+        <div class="menu-desc">Web Music Player</div>
+      </div>
+      <div class="menu-card locked" onclick="openModal('gorengan')">
+        <div class="menu-icon">🍟</div>
+        <div class="menu-name">Gorengan</div>
+        <div class="menu-desc">Konten spesial 🔒</div>
+        <div class="lock-badge">🔒</div>
+      </div>
+      <div class="menu-card" onclick="showPage('ai')">
+        <div class="menu-icon">🤖</div>
+        <div class="menu-name">AI Chat</div>
+        <div class="menu-desc">Claude & Gemini</div>
+      </div>
+      <div class="menu-card locked" onclick="openModal('vip')">
+        <div class="menu-icon">👑</div>
+        <div class="menu-name">VIP</div>
+        <div class="menu-desc">Premium Tools 🔒</div>
+        <div class="lock-badge">👑</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- PAGE: DOWNLOAD -->
+<div id="page-download" class="page-section hidden">
+  <div class="page-header">
+    <button class="back-btn" onclick="showHome()">← Kembali</button>
+    <h2>⬇️ Download</h2>
+  </div>
+  <div class="tool-tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'dl-ytmp3')">YT MP3</button>
+    <button class="tab-btn" onclick="switchTab(this,'dl-ytmp4')">YT MP4</button>
+    <button class="tab-btn" onclick="switchTab(this,'dl-tiktok')">TikTok</button>
+    <button class="tab-btn" onclick="switchTab(this,'dl-tikhd')">TikTok HD</button>
+    <button class="tab-btn" onclick="switchTab(this,'dl-aio')">AIO</button>
+    <button class="tab-btn" onclick="switchTab(this,'dl-douyin')">Douyin</button>
+    <button class="tab-btn" onclick="switchTab(this,'dl-spotify')">Spotify</button>
+    <button class="tab-btn" onclick="switchTab(this,'dl-sfile')">Sfile</button>
+  </div>
+
+  <div id="dl-ytmp3" class="tab-content active">
+    <div class="tool-card">
+      <h3>🎵 YouTube to MP3</h3>
+      <input type="url" id="in-ytmp3" class="tool-input" placeholder="Masukkan URL YouTube..." />
+      <button class="btn-primary" onclick="runDownload('ytmp3')">Download</button>
+      <div id="res-ytmp3" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="dl-ytmp4" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>🎬 YouTube to MP4</h3>
+      <input type="url" id="in-ytmp4" class="tool-input" placeholder="Masukkan URL YouTube..." />
+      <button class="btn-primary" onclick="runDownload('ytmp4')">Download</button>
+      <div id="res-ytmp4" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="dl-tiktok" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>🎵 TikTok Download (No Watermark)</h3>
+      <input type="url" id="in-tiktok" class="tool-input" placeholder="Masukkan URL TikTok..." />
+      <button class="btn-primary" onclick="runDownload('tiktok')">Download</button>
+      <div id="res-tiktok" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="dl-tikhd" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>🎵 TikTok HD Download</h3>
+      <input type="url" id="in-tikhd" class="tool-input" placeholder="Masukkan URL TikTok..." />
+      <button class="btn-primary" onclick="runDownload('tikhd')">Download</button>
+      <div id="res-tikhd" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="dl-aio" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>🌐 AIO Downloader</h3>
+      <input type="url" id="in-aio" class="tool-input" placeholder="Masukkan URL..." />
+      <button class="btn-primary" onclick="runDownload('aio')">Download</button>
+      <div id="res-aio" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="dl-douyin" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>🎵 Douyin Download</h3>
+      <input type="url" id="in-douyin" class="tool-input" placeholder="Masukkan URL Douyin..." />
+      <button class="btn-primary" onclick="runDownload('douyin')">Download</button>
+      <div id="res-douyin" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="dl-spotify" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>🎧 Spotify Download</h3>
+      <input type="url" id="in-spotify" class="tool-input" placeholder="Masukkan URL Spotify..." />
+      <button class="btn-primary" onclick="runDownload('spotify')">Download</button>
+      <div id="res-spotify" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="dl-sfile" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>📁 Sfile Download</h3>
+      <input type="url" id="in-sfile" class="tool-input" placeholder="Masukkan URL Sfile..." />
+      <button class="btn-primary" onclick="runDownload('sfile')">Download</button>
+      <div id="res-sfile" class="result-box hidden"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: TOOLS -->
+<div id="page-tools" class="page-section hidden">
+  <div class="page-header">
+    <button class="back-btn" onclick="showHome()">← Kembali</button>
+    <h2>🔧 Tools</h2>
+  </div>
+  <div class="tool-tabs" style="flex-wrap:wrap">
+    <button class="tab-btn active" onclick="switchTab(this,'tl-removebg')">Remove BG</button>
+    <button class="tab-btn" onclick="switchTab(this,'tl-pdf2img')">PDF→IMG</button>
+    <button class="tab-btn" onclick="switchTab(this,'tl-img2pdf')">IMG→PDF</button>
+    <button class="tab-btn" onclick="switchTab(this,'tl-png2jpg')">PNG→JPG</button>
+    <button class="tab-btn" onclick="switchTab(this,'tl-jpg2png')">JPG→PNG</button>
+    <button class="tab-btn" onclick="switchTab(this,'tl-audio2txt')">Audio→Text</button>
+    <button class="tab-btn" onclick="switchTab(this,'tl-removevocal')">Hapus Vokal</button>
+    <button class="tab-btn" onclick="switchTab(this,'tl-translate')">Translate</button>
+    <button class="tab-btn" onclick="switchTab(this,'tl-translate2')">Translate2</button>
+    <button class="tab-btn" onclick="switchTab(this,'tl-ytscript')">Transkrip YT</button>
+    <button class="tab-btn" onclick="switchTab(this,'tl-ttscript')">Transkrip TT</button>
+    <button class="tab-btn" onclick="switchTab(this,'tl-upscale')">Upscale IMG</button>
+    <button class="tab-btn" onclick="switchTab(this,'tl-timpa')">Timpa Teks</button>
+  </div>
+
+  <div id="tl-removebg" class="tab-content active">
+    <div class="tool-card">
+      <h3>🖼️ Remove Background</h3>
+      <input type="file" id="in-removebg" class="tool-file" accept="image/*" />
+      <button class="btn-primary" onclick="runToolFile('removebg')">Proses</button>
+      <div id="res-removebg" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="tl-pdf2img" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>📄 PDF → Gambar</h3>
+      <input type="file" id="in-pdf2img" class="tool-file" accept=".pdf" />
+      <button class="btn-primary" onclick="runConvert('pdf2img')">Konversi</button>
+      <div id="res-pdf2img" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="tl-img2pdf" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>🖼️ Gambar → PDF</h3>
+      <input type="file" id="in-img2pdf" class="tool-file" accept="image/*" />
+      <button class="btn-primary" onclick="runConvert('img2pdf')">Konversi</button>
+      <div id="res-img2pdf" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="tl-png2jpg" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>🔄 PNG → JPEG</h3>
+      <input type="file" id="in-png2jpg" class="tool-file" accept=".png" />
+      <button class="btn-primary" onclick="runConvert('png2jpg')">Konversi</button>
+      <div id="res-png2jpg" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="tl-jpg2png" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>🔄 JPEG → PNG</h3>
+      <input type="file" id="in-jpg2png" class="tool-file" accept=".jpg,.jpeg" />
+      <button class="btn-primary" onclick="runConvert('jpg2png')">Konversi</button>
+      <div id="res-jpg2png" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="tl-audio2txt" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>🎙️ Audio → Teks</h3>
+      <input type="url" id="in-audio2txt" class="tool-input" placeholder="URL file audio..." />
+      <button class="btn-primary" onclick="runToolUrl('audio2txt')">Proses</button>
+      <div id="res-audio2txt" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="tl-removevocal" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>🎤 Hapus Vokal</h3>
+      <input type="url" id="in-removevocal" class="tool-input" placeholder="URL file audio/video..." />
+      <button class="btn-primary" onclick="runToolUrl('removevocal')">Proses</button>
+      <div id="res-removevocal" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="tl-translate" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>🌐 Translate (Auto → ID)</h3>
+      <textarea id="in-translate" class="tool-textarea" placeholder="Masukkan teks..."></textarea>
+      <button class="btn-primary" onclick="runTranslate()">Terjemahkan</button>
+      <div id="res-translate" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="tl-translate2" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>🌍 Translate2 (Pilih Bahasa)</h3>
+      <textarea id="in-translate2" class="tool-textarea" placeholder="Masukkan teks..."></textarea>
+      <select id="in-translate2-lang" class="tool-select">
+        <option value="id">🇮🇩 Indonesia</option>
+        <option value="en">🇺🇸 English</option>
+        <option value="ja">🇯🇵 Japanese</option>
+        <option value="ko">🇰🇷 Korean</option>
+        <option value="zh">🇨🇳 Chinese</option>
+        <option value="ar">🇸🇦 Arabic</option>
+        <option value="fr">🇫🇷 French</option>
+        <option value="de">🇩🇪 German</option>
+        <option value="es">🇪🇸 Spanish</option>
+        <option value="pt">🇧🇷 Portuguese</option>
+        <option value="ru">🇷🇺 Russian</option>
+        <option value="hi">🇮🇳 Hindi</option>
+        <option value="th">🇹🇭 Thai</option>
+        <option value="vi">🇻🇳 Vietnamese</option>
+      </select>
+      <button class="btn-primary" onclick="runTranslate2()">Terjemahkan</button>
+      <div id="res-translate2" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="tl-ytscript" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>📝 Transkrip YouTube</h3>
+      <input type="url" id="in-ytscript" class="tool-input" placeholder="URL YouTube..." />
+      <button class="btn-primary" onclick="runToolUrl('ytscript')">Proses</button>
+      <div id="res-ytscript" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="tl-ttscript" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>📝 Transkrip TikTok</h3>
+      <p class="tool-note">⚠️ Fitur ini tergantung API, bisa error</p>
+      <input type="url" id="in-ttscript" class="tool-input" placeholder="URL TikTok..." />
+      <button class="btn-primary" onclick="runToolUrl('ttscript')">Proses</button>
+      <div id="res-ttscript" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="tl-upscale" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>⬆️ Upscale Gambar</h3>
+      <input type="url" id="in-upscale-url" class="tool-input" placeholder="URL gambar (opsional)..." />
+      <input type="file" id="in-upscale-file" class="tool-file" accept="image/*" />
+      <button class="btn-primary" onclick="runUpscale()">Upscale</button>
+      <div id="res-upscale" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="tl-timpa" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>✍️ Timpa Teks di Gambar</h3>
+      <input type="url" id="in-timpa-url" class="tool-input" placeholder="URL gambar..." />
+      <input type="file" id="in-timpa-file" class="tool-file" accept="image/*" />
+      <input type="text" id="in-timpa-text" class="tool-input" placeholder="Teks yang ingin ditimpa..." />
+      <button class="btn-primary" onclick="runTimpa()">Proses</button>
+      <div id="res-timpa" class="result-box hidden"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: AI -->
+<div id="page-ai" class="page-section hidden">
+  <div class="page-header">
+    <button class="back-btn" onclick="showHome()">← Kembali</button>
+    <h2>🤖 AI Chat</h2>
+  </div>
+  <div class="ai-model-toggle" style="flex-wrap:wrap;gap:.4rem">
+    <button class="model-btn active" id="btn-sinjagpt" onclick="selectModel('sinjagpt')">🟠 SINJAgpt</button>
+    <button class="model-btn" id="btn-claude" onclick="selectModel('claude')">⚫ Claude</button>
+    <button class="model-btn" id="btn-gemini" onclick="selectModel('gemini')">🔵 Gemini v2</button>
+    <button class="model-btn" id="btn-matematika" onclick="selectModel('matematika')">➕ Matematika</button>
+    <button class="model-btn" id="btn-humanize" onclick="selectModel('humanize')">✍️ Humanize</button>
+    <button class="model-btn" id="btn-aroma" onclick="selectModel('aroma')">🌸 Aroma AI</button>
+  </div>
+  <div class="ai-chat-box" id="ai-chat-box">
+    <div class="chat-bubble bot">Halo! Saya AI AISinja. Mau tanya apa? 😊</div>
+  </div>
+  <div class="ai-input-row">
+    <textarea id="ai-input" class="ai-textarea" placeholder="Ketik pertanyaan..." rows="2"></textarea>
+    <button class="btn-send" onclick="sendAI()" id="btn-send">➤</button>
+  </div>
+</div>
+
+<!-- PAGE: GORENGAN -->
+<!-- VIDEO PLAYER OVERLAY (untuk gorengan) -->
+<div id="video-overlay" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1rem">
+  <div style="width:100%;max-width:640px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+      <div id="video-title" style="color:#fff;font-size:.85rem;flex:1;margin-right:.5rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div>
+      <button onclick="closeVideoPlayer()" style="background:#e74c3c;color:#fff;border:none;border-radius:6px;padding:.3rem .7rem;cursor:pointer;font-size:.9rem">✕ Tutup</button>
+    </div>
+    <video id="video-player" controls style="width:100%;border-radius:8px;background:#000;max-height:70vh"></video>
+  </div>
+</div>
+
+<!-- PAGE: GORENGAN -->
+<div id="page-gorengan" class="page-section hidden">
+  <div class="page-header">
+    <button class="back-btn" onclick="showHome()">← Kembali</button>
+    <h2>🍟 Gorengan</h2>
+  </div>
+  <div class="gorengan-grid" id="gorengan-grid">
+    <div class="gorengan-loading">Memuat konten...</div>
+  </div>
+  <button class="btn-primary" style="margin:1rem auto;display:block" onclick="loadGorengan()">🔄 Muat Lagi</button>
+</div>
+
+<!-- PAGE: VIP -->
+<div id="page-vip" class="page-section hidden">
+  <div class="page-header">
+    <button class="back-btn" onclick="showHome()">← Kembali</button>
+    <h2>👑 VIP Area</h2>
+  </div>
+  <div class="tool-tabs" style="flex-wrap:wrap">
+    <button class="tab-btn active" onclick="switchTab(this,'vip-imggen')">🎨 IMG Gen</button>
+    <button class="tab-btn" onclick="switchTab(this,'vip-aiedit')">✏️ AI Edit</button>
+    <button class="tab-btn" onclick="switchTab(this,'vip-aiedit2')">✨ AI Edit v2</button>
+    <button class="tab-btn" onclick="switchTab(this,'vip-websearch')">🔍 Web Search</button>
+    <button class="tab-btn" onclick="switchTab(this,'vip-webdl')">⬇️ Web DL</button>
+    <button class="tab-btn" onclick="switchTab(this,'vip-komik')">📚 Komik</button>
+  </div>
+
+  <!-- IMG GEN dengan ratio -->
+  <div id="vip-imggen" class="tab-content active">
+    <div class="tool-card">
+      <h3>🎨 AI Image Generator</h3>
+      <textarea id="in-imggen" class="tool-textarea" placeholder="Masukkan prompt... (contoh: beautiful anime girl, sunset, detailed)"></textarea>
+      <label style="display:block;margin:.5rem 0 .25rem;font-size:.8rem;color:var(--text-muted)">Rasio Gambar</label>
+      <select id="in-imggen-ratio" class="tool-select">
+        <option value="1:1">1:1 — Square</option>
+        <option value="16:9">16:9 — Landscape</option>
+        <option value="9:16">9:16 — Portrait</option>
+        <option value="4:3">4:3 — Classic</option>
+        <option value="3:4">3:4 — Classic Portrait</option>
+        <option value="3:2">3:2 — Photo</option>
+        <option value="2:3">2:3 — Photo Portrait</option>
+      </select>
+      <button class="btn-primary" onclick="runImgGen()">✨ Generate</button>
+      <div id="res-imggen" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <!-- AI EDIT -->
+  <div id="vip-aiedit" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>✏️ AI Edit Gambar</h3>
+      <input type="url" id="in-aiedit" class="tool-input" placeholder="URL gambar..." />
+      <button class="btn-primary" onclick="runAIEdit('aiedit')">Edit</button>
+      <div id="res-aiedit" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <!-- AI EDIT v2 -->
+  <div id="vip-aiedit2" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>✨ AI Edit v2</h3>
+      <input type="url" id="in-aiedit2" class="tool-input" placeholder="URL gambar..." />
+      <button class="btn-primary" onclick="runAIEdit('aiedit2')">Edit</button>
+      <div id="res-aiedit2" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <!-- WEB SEARCH -->
+  <div id="vip-websearch" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>🔍 Web Search</h3>
+      <input type="text" id="in-websearch" class="tool-input" placeholder="Kata kunci..." />
+      <button class="btn-primary" onclick="runWebSearch()">Cari</button>
+      <div id="res-websearch" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <!-- WEB DL -->
+  <div id="vip-webdl" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>⬇️ Web Downloader</h3>
+      <input type="url" id="in-webdl" class="tool-input" placeholder="Masukkan URL..." />
+      <button class="btn-primary" onclick="runWebDL()">Download</button>
+      <div id="res-webdl" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <!-- KOMIK -->
+  <div id="vip-komik" class="tab-content hidden">
+    <div class="tool-card">
+      <h3>📚 Cari Komik</h3>
+      <input type="text" id="in-komik-search" class="tool-input" placeholder="Judul komik..." />
+      <button class="btn-primary" onclick="runKomikSearch()">🔍 Cari</button>
+      <div id="res-komik-search" class="result-box hidden" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.75rem;margin-top:.75rem"></div>
+    </div>
+    <div id="res-komik-dl" class="result-box hidden" style="margin-top:.75rem"></div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <span>✦ AISinja — <b>A</b>ll <b>I</b>n <b>Sin</b>dang <b>Ja</b>wa ✦</span>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>
